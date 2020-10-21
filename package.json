@@ -1,0 +1,19 @@
+{
+  "name": "distributed-project",
+  "version": "1.0.0",
+  "description": "Project for distributed and parallel computing.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/twinksy1/distributed-project.git"
+  },
+  "author": "Juan Villasenor & Juan Trigueros",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/twinksy1/distributed-project/issues"
+  },
+  "homepage": "https://github.com/twinksy1/distributed-project#readme"
+}
