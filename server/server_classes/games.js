@@ -1,4 +1,4 @@
-class LiveGames {
+class Games {
     
     constructor () {
         this.games = [];
@@ -25,4 +25,4 @@ class LiveGames {
 
 }
 
-module.exports = {LiveGames};
+module.exports = {Games};
