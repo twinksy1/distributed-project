@@ -1,15 +1,17 @@
 var socket = io();
 
-socket.on('connect', function(){
-    socket.emit('request_db_names');//Get database names to display to user
+socket.on('connect', function() {
+    // Get db names to display to user
+    socket.emit('request_db_names');
 });
 
-socket.on('game_names_data', function(data){
+socket.on('game_names_data', function(data) {
     for(var i = 0; i < Object.keys(data).length; i++){
         var div = document.getElementById('game-list');
         var button = document.createElement('button');
         
         button.innerHTML = data[i].name;
+        // Call startGame when host clicks create quiz button
         button.setAttribute('onClick', "startGame('" + data[i].id + "')");
         button.setAttribute('id', 'gameButton');
         
@@ -19,6 +21,7 @@ socket.on('game_names_data', function(data){
     }
 });
 
-function startGame(data){
+// Open host page for new host
+function startGame(data) {
     window.location.href="/host/" + "?id=" + data;
 }
