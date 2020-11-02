@@ -19,10 +19,6 @@ function updateDB() {
         questions.push({"question": q, "answers": answers, "correct": correct});
     }
 
-    var quiz = {id: 0, "name": name, "questions": questions};
-    socket.emit('newQuiz', quiz);
-}
-
 function addQuestion() {
     qNum += 1;
 
@@ -118,3 +114,13 @@ function setBGColor() {
     var color = randomColor();
     document.getElementById('question-field').style.backgroundColor = color;
 }
+
+
+
+
+
+
+
+
+
+>>>>>>> b115c8cc662db9c5c26a99834c3ff52636ddc15b
