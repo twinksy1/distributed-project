@@ -10,14 +10,14 @@ var time = 20;
 socket.on('connect', function() {
 
     //Tell server that it is host connection from game view
-    socket.emit('host-join-game', params);
+    socket.emit('host_join_game', params);
 });
 
-socket.on('noGameFound', function(){
+socket.on('no_game_found', function(){
    window.location.href = '../../';//Redirect user to 'join game' page
 });
 
-socket.on('gameQuestions', function(data){
+socket.on('game_questions', function(data){
     document.getElementById('question').innerHTML = data.q1;
     document.getElementById('answer1').innerHTML = data.a1;
     document.getElementById('answer2').innerHTML = data.a2;
@@ -28,11 +28,11 @@ socket.on('gameQuestions', function(data){
     updateTimer();
 });
 
-socket.on('updatePlayersAnswered', function(data){
+socket.on('update_players_answered', function(data){
    document.getElementById('playersAnswered').innerHTML = "Players Answered " + data.playersAnswered + " / " + data.playersInGame;
 });
 
-socket.on('questionOver', function(playerData, correct){
+socket.on('question_over', function(playerData, correct){
     clearInterval(timer);
     var answer1 = 0;
     var answer2 = 0;
@@ -118,7 +118,7 @@ function nextQuestion(){
     document.getElementById('playersAnswered').style.display = "block";
     document.getElementById('timerText').style.display = "block";
     document.getElementById('num').innerHTML = " 20";
-    socket.emit('nextQuestion'); //Tell server to start new question
+    socket.emit('next_question'); //Tell server to start new question
 }
 
 function updateTimer(){
@@ -127,11 +127,11 @@ function updateTimer(){
         time -= 1;
         document.getElementById('num').textContent = " " + time;
         if(time == 0){
-            socket.emit('timeUp');
+            socket.emit('time_up');
         }
     }, 1000);
 }
-socket.on('GameOver', function(data){
+socket.on('game_over', function(data){
     document.getElementById('nextQButton').style.display = "none";
     document.getElementById('square1').style.display = "none";
     document.getElementById('square2').style.display = "none";
@@ -162,7 +162,7 @@ socket.on('GameOver', function(data){
     document.getElementById('winner5').innerHTML = "5. " + data.num5;
 });
 
-socket.on('getTime', function(player){
+socket.on('get_time', function(player){
     socket.emit('time', {
         player: player,
         time: time
