@@ -1,126 +1,119 @@
 var socket = io();
-var questionNum = 1; //Starts at two because question 1 is already present
+var qNum = 1;
 
-function updateDatabase(){
+function updateDB() {
     var questions = [];
     var name = document.getElementById('name').value;
-    for(var i = 1; i <= questionNum; i++){
-        var question = document.getElementById('q' + i).value;
-        var answer1 = document.getElementById(i + 'a1').value;
-        var answer2 = document.getElementById(i + 'a2').value;
-        var answer3 = document.getElementById(i + 'a3').value;
-        var answer4 = document.getElementById(i + 'a4').value;
+
+    for(var i=1; i<= qNum; i++) {
+        // Question
+        var q = document.getElementById('q' + i).value;
+        // Answers
+        var a1 = document.getElementById(i + 'a1').value;
+        var a2 = document.getElementById(i + 'a2').value;
+        var a3 = document.getElementById(i + 'a3').value;
+        var a4 = document.getElementById(i + 'a4').value;
+        // Correct answer
         var correct = document.getElementById('correct' + i).value;
-        var answers = [answer1, answer2, answer3, answer4];
-        questions.push({"question": question, "answers": answers, "correct": correct})
+        var answers = [a1, a2, a3, a4];
+        questions.push({"question": q, "answers": answers, "correct": correct});
     }
-    
     var quiz = {id: 0, "name": name, "questions": questions};
-    socket.emit('newQuiz', quiz);
+    socket.emit('new_quiz', quiz);
 }
 
-function addQuestion(){
-    questionNum += 1;
-    
-    var questionsDiv = document.getElementById('allQuestions');
-    
-    var newQuestionDiv = document.createElement("div");
-    
-    var questionLabel = document.createElement('label');
-    var questionField = document.createElement('input');
-    
-    var answer1Label = document.createElement('label');
-    var answer1Field = document.createElement('input');
-    
-    var answer2Label = document.createElement('label');
-    var answer2Field = document.createElement('input');
-    
-    var answer3Label = document.createElement('label');
-    var answer3Field = document.createElement('input');
-    
-    var answer4Label = document.createElement('label');
-    var answer4Field = document.createElement('input');
-    
-    var correctLabel = document.createElement('label');
-    var correctField = document.createElement('input');
-    
-    questionLabel.innerHTML = "Question " + String(questionNum) + ": ";
-    questionField.setAttribute('class', 'question');
-    questionField.setAttribute('id', 'q' + String(questionNum));
-    questionField.setAttribute('type', 'text');
-    
-    answer1Label.innerHTML = "Answer 1: ";
-    answer2Label.innerHTML = " Answer 2: ";
-    answer3Label.innerHTML = "Answer 3: ";
-    answer4Label.innerHTML = " Answer 4: ";
-    correctLabel.innerHTML = "Correct Answer (1-4): ";
-    
-    answer1Field.setAttribute('id', String(questionNum) + "a1");
-    answer1Field.setAttribute('type', 'text');
-    answer2Field.setAttribute('id', String(questionNum) + "a2");
-    answer2Field.setAttribute('type', 'text');
-    answer3Field.setAttribute('id', String(questionNum) + "a3");
-    answer3Field.setAttribute('type', 'text');
-    answer4Field.setAttribute('id', String(questionNum) + "a4");
-    answer4Field.setAttribute('type', 'text');
-    correctField.setAttribute('id', 'correct' + String(questionNum));
-    correctField.setAttribute('type', 'number');
-    
-    newQuestionDiv.setAttribute('id', 'question-field');//Sets class of div
-    
-    newQuestionDiv.appendChild(questionLabel);
-    newQuestionDiv.appendChild(questionField);
-    newQuestionDiv.appendChild(document.createElement('br'));
-    newQuestionDiv.appendChild(document.createElement('br'));
-    newQuestionDiv.appendChild(answer1Label);
-    newQuestionDiv.appendChild(answer1Field);
-    newQuestionDiv.appendChild(answer2Label);
-    newQuestionDiv.appendChild(answer2Field);
-    newQuestionDiv.appendChild(document.createElement('br'));
-    newQuestionDiv.appendChild(document.createElement('br'));
-    newQuestionDiv.appendChild(answer3Label);
-    newQuestionDiv.appendChild(answer3Field);
-    newQuestionDiv.appendChild(answer4Label);
-    newQuestionDiv.appendChild(answer4Field);
-    newQuestionDiv.appendChild(document.createElement('br'));
-    newQuestionDiv.appendChild(document.createElement('br'));
-    newQuestionDiv.appendChild(correctLabel);
-    newQuestionDiv.appendChild(correctField);
-    
-    questionsDiv.appendChild(document.createElement('br'));//Creates a break between each question
-    questionsDiv.appendChild(newQuestionDiv);//Adds the question div to the screen
-    
-    newQuestionDiv.style.backgroundColor = randomColor();
+function addQuestion() {
+    qNum += 1;
+
+    var qDiv = document.getElementById('allQuestions');
+    // New Question
+    var newqDiv = document.createElement("div");
+    var qLabel = document.createElement('label');
+    var qField = document.createElement('input');
+    // Available Answers
+    var a1Label = document.createElement('label');
+    var a1Field = document.createElement('input');
+
+    var a2Label = document.createElement('label');
+    var a2Field = document.createElement('input');
+
+    var a3Label = document.createElement('label');
+    var a3Field = document.createElement('input');
+
+    var a4Label = document.createElement('label');
+    var a4Field = document.createElement('input');
+    // Correct Answer
+    var cLabel = document.createElement('label');
+    var cField = document.createElement('input');
+
+    qLabel.innerHTML = "Question " + String(qNum) + ": ";
+    qField.setAttribute('class', 'question');
+    qField.setAttribute('id', 'q' + String(qNum));
+    qField.setAttribute('type', 'text');
+
+    a1Label.innerHTML = "Answer 1: ";
+    a2Label.innerHTML = " Answer 2: ";
+    a3Label.innerHTML = "Answer 3: ";
+    a4Label.innerHTML = " Answer 4: ";
+    cLabel.innerHTML = "Correct Answer (1-4): ";
+
+    a1Field.setAttribute('id', String(qNum) + "a1");
+    a1Field.setAttribute('type', 'text');
+    a2Field.setAttribute('id', String(qNum) + "a2");
+    a2Field.setAttribute('type', 'text');
+    a3Field.setAttribute('id', String(qNum) + "a3");
+    a3Field.setAttribute('type', 'text');
+    a4Field.setAttribute('id', String(qNum) + "a4");
+    a4Field.setAttribute('type', 'text');
+    cField.setAttribute('id', 'correct' + String(qNum));
+    cField.setAttribute('type', 'number');
+
+    newqDiv.setAttribute('id', 'question-field');//Sets class of div
+
+    newqDiv.appendChild(qLabel);
+    newqDiv.appendChild(qField);
+    newqDiv.appendChild(document.createElement('br'));
+    newqDiv.appendChild(document.createElement('br'));
+    newqDiv.appendChild(a1Label);
+    newqDiv.appendChild(a1Field);
+    newqDiv.appendChild(a2Label);
+    newqDiv.appendChild(a2Field);
+    newqDiv.appendChild(document.createElement('br'));
+    newqDiv.appendChild(document.createElement('br'));
+    newqDiv.appendChild(a3Label);
+    newqDiv.appendChild(a3Field);
+    newqDiv.appendChild(a4Label);
+    newqDiv.appendChild(a4Field);
+    newqDiv.appendChild(document.createElement('br'));
+    newqDiv.appendChild(document.createElement('br'));
+    newqDiv.appendChild(cLabel);
+    newqDiv.appendChild(cField);
+
+    qDiv.appendChild(document.createElement('br'));//Creates a break between each question
+    qDiv.appendChild(newqDiv);//Adds the question div to the screen
+
+    newqDiv.style.backgroundColor = randomColor();
+
 }
 
-//Called when user wants to exit quiz creator
-function cancelQuiz(){
-    if (confirm("Are you sure you want to exit? All work will be DELETED!")) {
+function cancelQuiz() {
+    if(confirm("Are you sure you want to cancel your quiz creation?")) {
         window.location.href = "../";
     }
 }
 
-socket.on('startGameFromCreator', function(data){
+socket.on('start_game_from_creator', function(data) {
     window.location.href = "../../host/?id=" + data;
 });
 
-function randomColor(){
-    
-    var colors = ['#4CAF50', '#f94a1e', '#3399ff', '#ff9933'];
+function randomColor() {
+    // Random background colors
+    var colors = ['#FFC300', '#E512E8', '#12E8E3', '#FB7854'];
     var randomNum = Math.floor(Math.random() * 4);
     return colors[randomNum];
 }
 
-function setBGColor(){
-    var randColor = randomColor();
-    document.getElementById('question-field').style.backgroundColor = randColor;
+function setBGColor() {
+    var color = randomColor();
+    document.getElementById('question-field').style.backgroundColor = color;
 }
-
-
-
-
-
-
-
-
-
