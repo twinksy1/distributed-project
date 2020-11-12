@@ -141,7 +141,7 @@ io.on('connection', (socket) => {
             if(params.pin == games.games[i].game_pin){
                 console.log('Player connected to game'); 
                 var host_id = games.games[i].host_id; //Get the id of host of game                
-                players.addPlayer(host_id, socket.id, params.name, {score: 0, answer: 0}); //add player to game                
+                players.add_player(host_id, socket.id, params.name, {score: 0, answer: 0}); //add player to game                
                 socket.join(params.pin); //Player is joining room based on game_pin                
                 var players_in_game = players.get_players(host_id); //Getting all players in game                
                 io.to(params.pin).emit('update_player_lobby', players_in_game);//Sending host player data to display
