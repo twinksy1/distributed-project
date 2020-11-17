@@ -19,7 +19,7 @@ function updateDB() {
         questions.push({"question": q, "answers": answers, "correct": correct});
     }
     var quiz = {id: 0, "name": name, "questions": questions};
-    socket.emit('newQuiz', quiz);
+    socket.emit('new_quiz', quiz);
 }
 
 function addQuestion() {
@@ -102,7 +102,7 @@ function cancelQuiz() {
     }
 }
 
-socket.on('startGameFromCreator', function(data) {
+socket.on('start_game_from_creator', function(data) {
     window.location.href = "../../host/?id=" + data;
 });
 
