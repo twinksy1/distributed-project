@@ -24,15 +24,15 @@ socket.on('game_questions', function(data){
     document.getElementById('answer3').innerHTML = data.a3;
     document.getElementById('answer4').innerHTML = data.a4;
     var correctAnswer = data.correct;
-    document.getElementById('playersAnswered').innerHTML = "Players Answered 0 / " + data.playersInGame;
+    document.getElementById('playersAnswered').innerHTML = "Players Answered 0 / " + data.players_in_game;
     updateTimer();
 });
 
 socket.on('update_players_answered', function(data){
-   document.getElementById('playersAnswered').innerHTML = "Players Answered " + data.playersAnswered + " / " + data.playersInGame;
+   document.getElementById('playersAnswered').innerHTML = "Players Answered " + data.players_answered + " / " + data.players_in_game;
 });
 
-socket.on('question_over', function(playerData, correct){
+socket.on('question_over', function(player_data, correct){
     clearInterval(timer);
     var answer1 = 0;
     var answer2 = 0;
@@ -70,14 +70,14 @@ socket.on('question_over', function(playerData, correct){
         document.getElementById('answer4').innerHTML = "&#10004" + " " + current;
     }   
     
-    for(var i = 0; i < playerData.length; i++){
-        if(playerData[i].gameData.answer == 1){ 
+    for(var i = 0; i < player_data.length; i++){
+        if(player_data[i].game_data.answer == 1){ 
             answer1 += 1;
-        }else if(playerData[i].gameData.answer == 2){ 
+        }else if(player_data[i].game_data.answer == 2){ 
             answer2 += 1;
-        }else if(playerData[i].gameData.answer == 3){ 
+        }else if(player_data[i].game_data.answer == 3){ 
             answer3 += 1;
-        }else if(playerData[i].gameData.answer == 4){ 
+        }else if(player_data[i].game_data.answer == 4){ 
             answer4 += 1;
         }
         total += 1;

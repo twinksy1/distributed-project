@@ -34,8 +34,11 @@ io.on('connection', (socket) => {
     socket.on('host_join', (data) =>{
         
         //Check if id passed matches id of game in database
-        MongoClient.connect(url, function(err, db) {
+        MongoClient.connect(url, { useNewUrlParser: true, 
+            useUnifiedTopology: true }, function(err, db) 
+        {
             if (err) throw err;
+
             var dbo = db.db("gameDB");
             var query = { id:  parseInt(data.id)};
             dbo.collection('projectGames').find(query).toArray(
@@ -89,7 +92,9 @@ io.on('connection', (socket) => {
                 }
             }
             var game_id = game.game_data['game_id'];
-            MongoClient.connect(url, function(err, db){
+            MongoClient.connect(url, { useNewUrlParser: true, 
+                useUnifiedTopology: true }, function(err, db)
+            {
                 if (err) throw err;
     
                 var dbo = db.db('gameDB');
@@ -135,7 +140,7 @@ io.on('connection', (socket) => {
             if(params.pin == games.games[i].game_pin){
                 console.log('Player connected to game'); 
                 var host_id = games.games[i].host_id; //Get the id of host of game                
-                players.addPlayer(host_id, socket.id, params.name, {score: 0, answer: 0}); //add player to game                
+                players.add_player(host_id, socket.id, params.name, {score: 0, answer: 0}); //add player to game                
                 socket.join(params.pin); //Player is joining room based on game_pin                
                 var players_in_game = players.get_players(host_id); //Getting all players in game                
                 io.to(params.pin).emit('update_player_lobby', players_in_game);//Sending host player data to display
@@ -217,7 +222,9 @@ io.on('connection', (socket) => {
             var game_question = game.game_data.question;
             var game_id = game.game_data.game_id;
             
-            MongoClient.connect(url, function(err, db){
+            MongoClient.connect(url, { useNewUrlParser: true, 
+                useUnifiedTopology: true }, function(err, db)
+            {
                 if (err) throw err;
     
                 var dbo = db.db('gameDB');
@@ -248,9 +255,6 @@ io.on('connection', (socket) => {
                     db.close();
                 });
             });
-            
-            
-            
         }
     });
     
@@ -275,19 +279,21 @@ io.on('connection', (socket) => {
         var game_question = game.game_data.question;
         var game_id = game.game_data.game_id;
             
-            MongoClient.connect(url, function(err, db){
+        MongoClient.connect(url, { useNewUrlParser: true, 
+            useUnifiedTopology: true }, function(err, db)
+        {
+            if (err) throw err;
+
+            var dbo = db.db('gameDB');
+            var query = { id:  parseInt(game_id)};
+            dbo.collection("projectGames").find(query).toArray(function(err, res) {
                 if (err) throw err;
-    
-                var dbo = db.db('gameDB');
-                var query = { id:  parseInt(game_id)};
-                dbo.collection("projectGames").find(query).toArray(function(err, res) {
-                    if (err) throw err;
-                    var correct_answer = res[0].questions[game_question - 1].correct;
-                    io.to(game.game_pin).emit('question_over', player_data, correct_answer);
-                    
-                    db.close();
-                });
+                var correct_answer = res[0].questions[game_question - 1].correct;
+                io.to(game.game_pin).emit('question_over', player_data, correct_answer);
+                
+                db.close();
             });
+        });
     });
     
     socket.on('next_question', function(){
@@ -304,116 +310,118 @@ io.on('connection', (socket) => {
         game.game_data.question += 1;
         var game_id = game.game_data.game_id;
                 
-        MongoClient.connect(url, function(err, db){
-                if (err) throw err;
-    
-                var dbo = db.db('gameDB');
-                var query = { id:  parseInt(game_id)};
-                dbo.collection("projectGames").find(query).toArray(function(err, res) {
-                    if (err) throw err;
-                    
-                    if(res[0].questions.length >= game.game_data.question){
-                        var questionNum = game.game_data.question;
-                        questionNum = questionNum - 1;
-                        var question = res[0].questions[questionNum].question;
-                        var answer1 = res[0].questions[questionNum].answers[0];
-                        var answer2 = res[0].questions[questionNum].answers[1];
-                        var answer3 = res[0].questions[questionNum].answers[2];
-                        var answer4 = res[0].questions[questionNum].answers[3];
-                        var correct_answer = res[0].questions[questionNum].correct;
+        MongoClient.connect(url, { useNewUrlParser: true, 
+            useUnifiedTopology: true }, function(err, db)
+        {
+            if (err) throw err;
 
-                        socket.emit('game_questions', {
-                            q1: question,
-                            a1: answer1,
-                            a2: answer2,
-                            a3: answer3,
-                            a4: answer4,
-                            correct: correct_answer,
-                            players_in_game: player_data.length
-                        });
-                        db.close();
-                    }else{
-                        var players_in_game = players.get_players(game.host_id);
-                        var first = {name: "", score: 0};
-                        var second = {name: "", score: 0};
-                        var third = {name: "", score: 0};
-                        var fourth = {name: "", score: 0};
-                        var fifth = {name: "", score: 0};
+            var dbo = db.db('gameDB');
+            var query = { id:  parseInt(game_id)};
+            dbo.collection("projectGames").find(query).toArray(function(err, res) {
+                if (err) throw err;
+                
+                if(res[0].questions.length >= game.game_data.question){
+                    var questionNum = game.game_data.question;
+                    questionNum = questionNum - 1;
+                    var question = res[0].questions[questionNum].question;
+                    var answer1 = res[0].questions[questionNum].answers[0];
+                    var answer2 = res[0].questions[questionNum].answers[1];
+                    var answer3 = res[0].questions[questionNum].answers[2];
+                    var answer4 = res[0].questions[questionNum].answers[3];
+                    var correct_answer = res[0].questions[questionNum].correct;
+
+                    socket.emit('game_questions', {
+                        q1: question,
+                        a1: answer1,
+                        a2: answer2,
+                        a3: answer3,
+                        a4: answer4,
+                        correct: correct_answer,
+                        players_in_game: player_data.length
+                    });
+                    db.close();
+                }else{
+                    var players_in_game = players.get_players(game.host_id);
+                    var first = {name: "", score: 0};
+                    var second = {name: "", score: 0};
+                    var third = {name: "", score: 0};
+                    var fourth = {name: "", score: 0};
+                    var fifth = {name: "", score: 0};
                         
-                        for(var i = 0; i < players_in_game.length; i++){
-                            console.log(players_in_game[i].game_data.score);
-                            if(players_in_game[i].game_data.score > fifth.score){
-                                if(players_in_game[i].game_data.score > fourth.score){
-                                    if(players_in_game[i].game_data.score > third.score){
-                                        if(players_in_game[i].game_data.score > second.score){
-                                            if(players_in_game[i].game_data.score > first.score){
-                                                //First Place
-                                                fifth.name = fourth.name;
-                                                fifth.score = fourth.score;
-                                                
-                                                fourth.name = third.name;
-                                                fourth.score = third.score;
-                                                
-                                                third.name = second.name;
-                                                third.score = second.score;
-                                                
-                                                second.name = first.name;
-                                                second.score = first.score;
-                                                
-                                                first.name = players_in_game[i].name;
-                                                first.score = players_in_game[i].game_data.score;
-                                            }else{
-                                                //Second Place
-                                                fifth.name = fourth.name;
-                                                fifth.score = fourth.score;
-                                                
-                                                fourth.name = third.name;
-                                                fourth.score = third.score;
-                                                
-                                                third.name = second.name;
-                                                third.score = second.score;
-                                                
-                                                second.name = players_in_game[i].name;
-                                                second.score = players_in_game[i].game_data.score;
-                                            }
-                                        }else{
-                                            //Third Place
+                    for(var i = 0; i < players_in_game.length; i++){
+                        console.log(players_in_game[i].game_data.score);
+                        if(players_in_game[i].game_data.score > fifth.score){
+                            if(players_in_game[i].game_data.score > fourth.score){
+                                if(players_in_game[i].game_data.score > third.score){
+                                    if(players_in_game[i].game_data.score > second.score){
+                                        if(players_in_game[i].game_data.score > first.score){
+                                            //First Place
                                             fifth.name = fourth.name;
                                             fifth.score = fourth.score;
-                                                
+                                            
                                             fourth.name = third.name;
                                             fourth.score = third.score;
                                             
-                                            third.name = players_in_game[i].name;
-                                            third.score = players_in_game[i].game_data.score;
+                                            third.name = second.name;
+                                            third.score = second.score;
+                                            
+                                            second.name = first.name;
+                                            second.score = first.score;
+                                            
+                                            first.name = players_in_game[i].name;
+                                            first.score = players_in_game[i].game_data.score;
+                                        }else{
+                                            //Second Place
+                                            fifth.name = fourth.name;
+                                            fifth.score = fourth.score;
+                                            
+                                            fourth.name = third.name;
+                                            fourth.score = third.score;
+                                            
+                                            third.name = second.name;
+                                            third.score = second.score;
+                                            
+                                            second.name = players_in_game[i].name;
+                                            second.score = players_in_game[i].game_data.score;
                                         }
                                     }else{
-                                        //Fourth Place
+                                        //Third Place
                                         fifth.name = fourth.name;
                                         fifth.score = fourth.score;
+                                            
+                                        fourth.name = third.name;
+                                        fourth.score = third.score;
                                         
-                                        fourth.name = players_in_game[i].name;
-                                        fourth.score = players_in_game[i].game_data.score;
+                                        third.name = players_in_game[i].name;
+                                        third.score = players_in_game[i].game_data.score;
                                     }
                                 }else{
-                                    //Fifth Place
-                                    fifth.name = players_in_game[i].name;
-                                    fifth.score = players_in_game[i].game_data.score;
+                                    //Fourth Place
+                                    fifth.name = fourth.name;
+                                    fifth.score = fourth.score;
+                                    
+                                    fourth.name = players_in_game[i].name;
+                                    fourth.score = players_in_game[i].game_data.score;
                                 }
+                            }else{
+                                //Fifth Place
+                                fifth.name = players_in_game[i].name;
+                                fifth.score = players_in_game[i].game_data.score;
                             }
                         }
-                        
-                        io.to(game.game_pin).emit('game_over', {
-                            num1: first.name,
-                            num2: second.name,
-                            num3: third.name,
-                            num4: fourth.name,
-                            num5: fifth.name
-                        });
                     }
-                });
+                    
+                    io.to(game.game_pin).emit('game_over', {
+                        num1: first.name,
+                        num2: second.name,
+                        num3: third.name,
+                        num4: fourth.name,
+                        num5: fifth.name
+                    });
+                }
             });
-        
+        });
+
         io.to(game.game_pin).emit('next_question_player');
     });
     
@@ -427,7 +435,9 @@ io.on('connection', (socket) => {
     //Give user game names data
     socket.on('request_db_names', function(){
         
-        MongoClient.connect(url, function(err, db){
+        MongoClient.connect(url, { useNewUrlParser: true, 
+            useUnifiedTopology: true }, function(err, db)
+        {
             if (err) throw err;
     
             var dbo = db.db('gameDB');
@@ -441,8 +451,11 @@ io.on('connection', (socket) => {
     
     socket.on('new_quiz', function(data){
         
-        MongoClient.connect(url, function(err, db){
+        MongoClient.connect(url, { useNewUrlParser: true, 
+            useUnifiedTopology: true }, function(err, db)
+        {
             if (err) throw err;
+            
             var dbo = db.db('gameDB');
             dbo.collection('projectGames').find({}).toArray(function(err, result){
                 if(err) throw err;
