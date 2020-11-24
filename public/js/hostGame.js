@@ -23,6 +23,8 @@ socket.on('game_questions', function(data){
     document.getElementById('answer2').innerHTML = data.a2;
     document.getElementById('answer3').innerHTML = data.a3;
     document.getElementById('answer4').innerHTML = data.a4;
+    //var currentQuestion = document.getElementById('questionNum').in;
+    document.getElementById('questionNum').innerHTML = "Question " + data.current_question + " / " + data.total_questions;
     var correctAnswer = data.correct;
     document.getElementById('playersAnswered').innerHTML = "Players Answered 0 / " + data.players_in_game;
     updateTimer();

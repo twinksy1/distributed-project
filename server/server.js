@@ -117,6 +117,8 @@ io.on('connection', (socket) => {
                         a3: answer3,
                         a4: answer4,
                         correct: correct_answer,
+                        total_questions: res[0].questions.length,
+                        current_question: game.game_data.question,
                         players_in_game: player_data.length
                     });
                     db.close();
@@ -337,6 +339,8 @@ io.on('connection', (socket) => {
                         a3: answer3,
                         a4: answer4,
                         correct: correct_answer,
+                        total_questions: res[0].questions.length,
+                        current_question: game.game_data.question,
                         players_in_game: player_data.length
                     });
                     db.close();
