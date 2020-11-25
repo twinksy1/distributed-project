@@ -91,7 +91,7 @@ socket.on('player_game_data', function(data){
    }
 });
 
-socket.on('game_over', function(){
+socket.on('game_over', function(data){
     document.body.style.backgroundColor = "#FFFFFF";
     document.getElementById('answer1').style.visibility = "hidden";
     document.getElementById('answer2').style.visibility = "hidden";
@@ -99,5 +99,17 @@ socket.on('game_over', function(){
     document.getElementById('answer4').style.visibility = "hidden";
     document.getElementById('message').style.display = "block";
     document.getElementById('message').innerHTML = "GAME OVER";
+    var player_name = document.getElementById('nameText').innerHTML;
+    var name_match = "Name: " + data.num1;
+    if(name_match == player_name){
+        //document.getElementById('nameText').innerHTML = "Name: WINNER";
+        setTimeout(function(){ 
+            //alert("Hello"); 
+            var ask = confirm("As the winner, do you want to host a quiz?");
+            if (ask) {
+                window.location.href = "../../create";
+            }
+        }, 5000);
+    }
 });
 
