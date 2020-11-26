@@ -1,1 +1,13 @@
-This is the master branch. It's for any progress made for the whole project.
+To run this web application, Nodejs is needed as well as the dependencies used.
+Therefore, after Nodejs is installed along with npm, one gets the dependencies
+by running the following npm command:
+    
+    npm install
+
+We would run the server file from the root path of all of the files, which is 
+"/distributed-project". 
+
+Therefore, the command used to run the Nodejs server file within the project's
+main "/distributed-project" directory and get the web app working is:
+
+    nodejs server.js
