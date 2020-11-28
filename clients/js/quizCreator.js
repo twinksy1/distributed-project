@@ -45,6 +45,8 @@ function addQuestion() {
     // Correct Answer
     var cLabel = document.createElement('label');
     var cField = document.createElement('input');
+    cField.min = "1";
+    cField.max = "4";
 
     qLabel.innerHTML = "Question " + String(qNum) + ": ";
     qField.setAttribute('class', 'question');
