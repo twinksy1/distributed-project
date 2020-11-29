@@ -486,7 +486,7 @@ io.on('connection', (socket) => {
                     db.close();
                 });
                 db.close();
-                socket.emit('start_game_from_creator', num);
+                socket.emit('start_game_from_creator', num+1);
             });
         });
     });
