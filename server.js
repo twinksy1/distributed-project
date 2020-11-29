@@ -93,13 +93,16 @@ io.on('connection', (socket) => {
             }
             var game_id = game.game_data['game_id'];
             MongoClient.connect(url, { useNewUrlParser: true, 
-                useUnifiedTopology: true }, function(err, db)
+                useUnifiedTopology: true }, async (err, db) =>
             {
                 if (err) throw err;
     
                 var dbo = db.db('gameDB');
                 var query = { id:  parseInt(game_id)};
-                dbo.collection("projectGames").find(query).toArray(
+
+		// Awaiting toArray
+
+                var toArray = await dbo.collection("projectGames").find(query).toArray(
                     function(err, res) {
                     if (err) throw err;
                     
@@ -453,15 +456,18 @@ io.on('connection', (socket) => {
         });
     });
     
-    socket.on('new_quiz', function(data){
+    socket.on('new_quiz', async (data) => {
         
-        MongoClient.connect(url, { useNewUrlParser: true, 
-            useUnifiedTopology: true }, function(err, db)
+        var connection = await MongoClient.connect(url, { useNewUrlParser: true, 
+            useUnifiedTopology: true }, async (err, db) =>
         {
             if (err) throw err;
             
             var dbo = db.db('gameDB');
-            dbo.collection('projectGames').find({}).toArray(function(err, result){
+
+	    // Awaiting toArray
+
+            var toArray = await dbo.collection('projectGames').find({}).toArray(async (err, result) => {
                 if(err) throw err;
                 
                 var num = Object.keys(result).length;
@@ -469,10 +475,13 @@ io.on('connection', (socket) => {
                 	data.id = 1
                 	num = 1
                 }else{
-                	data.id = result[num -1 ].id + 1;
+                	data.id = result[num-1].id + 1;
                 }
                 var game = data;
-                dbo.collection("projectGames").insertOne(game, function(err, res) {
+
+		// Awaiting insert function
+		    
+                var insert = await dbo.collection("projectGames").insertOne(game, function (err, res) {
                     if (err) throw err;
                     db.close();
                 });
