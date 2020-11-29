@@ -39,9 +39,9 @@ io.on('connection', (socket) => {
         {
             if (err) throw err;
 
-            var dbo = db.db("gameDB");
+            var dbo = db.db("finalGameDB");
             var query = { id:  parseInt(data.id)};
-            dbo.collection('projectGames').find(query).toArray(
+            dbo.collection('finalProjectGames').find(query).toArray(
                 function(err, result){
                 if(err) throw err;
                 
@@ -97,12 +97,12 @@ io.on('connection', (socket) => {
             {
                 if (err) throw err;
     
-                var dbo = db.db('gameDB');
+                var dbo = db.db('finalGameDB');
                 var query = { id:  parseInt(game_id)};
 
 		// Awaiting toArray
 
-                var toArray = await dbo.collection("projectGames").find(query).toArray(
+                var toArray = await dbo.collection("finalProjectGames").find(query).toArray(
                     function(err, res) {
                     if (err) throw err;
                     
@@ -232,9 +232,9 @@ io.on('connection', (socket) => {
             {
                 if (err) throw err;
     
-                var dbo = db.db('gameDB');
+                var dbo = db.db('finalGameDB');
                 var query = { id:  parseInt(game_id)};
-                dbo.collection("projectGames").find(query).toArray(function(err, res) {
+                dbo.collection("finalProjectGames").find(query).toArray(function(err, res) {
                     if (err) throw err;
                     var correct_answer = res[0].questions[game_question - 1].correct;
                     //Checks player answer with correct answer
@@ -289,9 +289,9 @@ io.on('connection', (socket) => {
         {
             if (err) throw err;
 
-            var dbo = db.db('gameDB');
+            var dbo = db.db('finalGameDB');
             var query = { id:  parseInt(game_id)};
-            dbo.collection("projectGames").find(query).toArray(function(err, res) {
+            dbo.collection("finalProjectGames").find(query).toArray(function(err, res) {
                 if (err) throw err;
                 var correct_answer = res[0].questions[game_question - 1].correct;
                 io.to(game.game_pin).emit('question_over', player_data, correct_answer);
@@ -320,9 +320,9 @@ io.on('connection', (socket) => {
         {
             if (err) throw err;
 
-            var dbo = db.db('gameDB');
+            var dbo = db.db('finalGameDB');
             var query = { id:  parseInt(game_id)};
-            dbo.collection("projectGames").find(query).toArray(function(err, res) {
+            dbo.collection("finalProjectGames").find(query).toArray(function(err, res) {
                 if (err) throw err;
                 
                 if(res[0].questions.length >= game.game_data.question){
@@ -447,8 +447,8 @@ io.on('connection', (socket) => {
         {
             if (err) throw err;
     
-            var dbo = db.db('gameDB');
-            dbo.collection("projectGames").find().toArray(function(err, res) {
+            var dbo = db.db('finalGameDB');
+            dbo.collection("finalProjectGames").find().toArray(function(err, res) {
                 if (err) throw err;
                 socket.emit('game_names_data', res);
                 db.close();
@@ -463,11 +463,11 @@ io.on('connection', (socket) => {
         {
             if (err) throw err;
             
-            var dbo = db.db('gameDB');
+            var dbo = db.db('finalGameDB');
 
 	    // Awaiting toArray
 
-            var toArray = await dbo.collection('projectGames').find({}).toArray(async (err, result) => {
+            var toArray = await dbo.collection('finalProjectGames').find({}).toArray(async (err, result) => {
                 if(err) throw err;
                 
                 var num = Object.keys(result).length;
@@ -481,7 +481,7 @@ io.on('connection', (socket) => {
 
 		// Awaiting insert function
 		    
-                var insert = await dbo.collection("projectGames").insertOne(game, function (err, res) {
+                var insert = await dbo.collection("finalProjectGames").insertOne(game, function (err, res) {
                     if (err) throw err;
                     db.close();
                 });
