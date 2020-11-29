@@ -473,7 +473,6 @@ io.on('connection', (socket) => {
                 var num = Object.keys(result).length;
                 if(num == 0){
                 	data.id = 1
-                	num = 1
                 }else{
                 	data.id = result[num-1].id + 1;
                 }
