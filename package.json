@@ -7,16 +7,8 @@
     "start": "node ./server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/twinksy1/distributed-project.git"
-  },
   "author": "Juan Villasenor & Juan Trigueros",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/twinksy1/distributed-project/issues"
-  },
-  "homepage": "https://github.com/twinksy1/distributed-project#readme",
   "dependencies": {
     "express": "^4.17.1",
     "moment": "^2.29.1",

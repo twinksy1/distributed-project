@@ -107,7 +107,7 @@ socket.on('game_over', function(data){
             //alert("Hello"); 
             var ask = confirm("As the winner, do you want to host a quiz?");
             if (ask) {
-                window.location.href = "../../create";
+                window.location.href = "../../quizzes";
             }
         }, 5000);
     }
