@@ -1,5 +1,15 @@
 To run this web application, Nodejs is needed as well as the dependencies used.
-Therefore, after Nodejs is installed along with npm, one gets the dependencies
+
+We have provided the folder with the dependencies used, but they will likely
+not work because they are not actually installed on the machine. To get the 
+dependencies, if they do not work, the current dependencies folder must be 
+deleted. Therfore, one must delete the "/node_modules" folder first by using 
+the following command:
+
+    rm -rf node_modules/
+
+Now, after Nodejs is installed along with npm and the given dependencies folder
+has been deleted, one needs to get the dependencies installed on their machine 
 by running the following npm command:
     
     npm install

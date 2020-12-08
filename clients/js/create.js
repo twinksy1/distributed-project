@@ -1,7 +1,7 @@
 var socket = io();
 
 socket.on('connect', function() {
-    // Get db names to display to user
+    // Gets names from the database to display them
     socket.emit('request_db_names');
 });
 
@@ -11,7 +11,7 @@ socket.on('game_names_data', function(data) {
         var button = document.createElement('button');
         
         button.innerHTML = data[i].name;
-        // Call startGame when host clicks create quiz button
+        // Calls startGame when the host presses the "create quiz" button
         button.setAttribute('onClick', "startGame('" + data[i].id + "')");
         button.setAttribute('id', 'gameButton');
         
@@ -21,7 +21,7 @@ socket.on('game_names_data', function(data) {
     }
 });
 
-// Open host page for new host
+// Opens the host page for a new host
 function startGame(data) {
     window.location.href="/host/" + "?id=" + data;
 }

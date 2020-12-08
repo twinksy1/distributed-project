@@ -4,10 +4,11 @@ var correct = false;
 var name;
 var score = 0;
 
-var params = jQuery.deparam(window.location.search); //Gets the id from url
+// Gets the id from url
+var params = jQuery.deparam(window.location.search); 
 
 socket.on('connect', function() {
-    //Tell server that it is host connection from game view
+    // Tells server that the player is connecting from the game view
     socket.emit('player_join_game', params);
     
     document.getElementById('answer1').style.visibility = "visible";
@@ -17,16 +18,18 @@ socket.on('connect', function() {
 });
 
 socket.on('no_game_found', function(){
-    window.location.href = '../../';//Redirect user to 'join game' page 
+    // Redirects user to main page
+    window.location.href = '../../'; 
 });
 
 function answerSubmitted(num){
     if(playerAnswered == false){
         playerAnswered = true;
         
-        socket.emit('player_answer', num);//Sends player answer to server
+        // Sends player's answer to the server
+        socket.emit('player_answer', num);
         
-        //Hiding buttons from user
+        // Hide buttons from the users
         document.getElementById('answer1').style.visibility = "hidden";
         document.getElementById('answer2').style.visibility = "hidden";
         document.getElementById('answer3').style.visibility = "hidden";
@@ -37,7 +40,7 @@ function answerSubmitted(num){
     }
 }
 
-//Get results on last question
+// Get the results on the last question
 socket.on('answer_result', function(data){
     if(data == true){
         correct = true;

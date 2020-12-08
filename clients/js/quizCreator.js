@@ -91,11 +91,12 @@ function addQuestion() {
     newqDiv.appendChild(cLabel);
     newqDiv.appendChild(cField);
 
-    qDiv.appendChild(document.createElement('br'));//Creates a break between each question
-    qDiv.appendChild(newqDiv);//Adds the question div to the screen
-
+    // Creates a break between each question
+    qDiv.appendChild(document.createElement('br'));
+    
+    // Adds the question div to the screen
+    qDiv.appendChild(newqDiv);
     newqDiv.style.backgroundColor = randomColor();
-
 }
 
 function cancelQuiz() {

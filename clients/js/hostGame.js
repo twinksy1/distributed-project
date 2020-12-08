@@ -1,20 +1,21 @@
 var socket = io();
 
-var params = jQuery.deparam(window.location.search); //Gets the id from url
+// Gets the id from url
+var params = jQuery.deparam(window.location.search); 
 
 var timer;
-
 var time = 20;
 
-//When host connects to server
+// When the host connects to server
 socket.on('connect', function() {
 
-    //Tell server that it is host connection from game view
+    // Tells server that the host is connecting from the game view
     socket.emit('host_join_game', params);
 });
 
 socket.on('no_game_found', function(){
-   window.location.href = '../../';//Redirect user to 'join game' page
+   // Redirects users to main page
+   window.location.href = '../../';
 });
 
 socket.on('game_questions', function(data){
@@ -23,7 +24,6 @@ socket.on('game_questions', function(data){
     document.getElementById('answer2').innerHTML = data.a2;
     document.getElementById('answer3').innerHTML = data.a3;
     document.getElementById('answer4').innerHTML = data.a4;
-    //var currentQuestion = document.getElementById('questionNum').in;
     document.getElementById('questionNum').innerHTML = "Question " + data.current_question + " / " + data.total_questions;
     var correctAnswer = data.correct;
     document.getElementById('playersAnswered').innerHTML = "Players Answered 0 / " + data.players_in_game;
@@ -41,11 +41,11 @@ socket.on('question_over', function(player_data, correct){
     var answer3 = 0;
     var answer4 = 0;
     var total = 0;
-    //Hide elements on page
+    // Makes elements on the page invisible
     document.getElementById('playersAnswered').style.display = "none";
     document.getElementById('timerText').style.display = "none";
 
-    //Shows user correct answer with effects on elements
+    // Shows users the correct answer by changing the elements
     if(correct == 1){
         document.getElementById('answer2').style.filter = "grayscale(50%)";
         document.getElementById('answer3').style.filter = "grayscale(50%)";
@@ -85,7 +85,7 @@ socket.on('question_over', function(player_data, correct){
         total += 1;
     }   
     
-    //Gets values for graph
+    // Gets the values for the bar graph
     answer1 = answer1 / total * 100;
     answer2 = answer2 / total * 100;
     answer3 = answer3 / total * 100;
@@ -120,7 +120,8 @@ function nextQuestion(){
     document.getElementById('playersAnswered').style.display = "block";
     document.getElementById('timerText').style.display = "block";
     document.getElementById('num').innerHTML = " 20";
-    socket.emit('next_question'); //Tell server to start new question
+    // Tells server to start the next question
+    socket.emit('next_question'); 
 }
 
 function updateTimer(){
@@ -147,8 +148,6 @@ socket.on('game_over', function(data){
     document.getElementById('timerText').innerHTML = "";
     document.getElementById('question').innerHTML = "GAME OVER";
     document.getElementById('playersAnswered').innerHTML = "";
-
-
 
     document.getElementById('winner1').style.display = "block";
     document.getElementById('winner2').style.display = "block";

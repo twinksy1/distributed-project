@@ -4,7 +4,8 @@ var params = jQuery.deparam(window.location.search);
 // Host connecting to the server
 socket.on('connect', function() {
 	document.getElementById('players').value = "";
-	// Specify that it is a host connection
+	
+	// State that it is a host connection
 	socket.emit('host_join', params);
 });
 
@@ -12,7 +13,7 @@ socket.on('show_game_pin', function(data) {
 	document.getElementById('gamePinText').innerHTML = data.game_pin;
 });
 
-// Adding player names to screen & updating player count
+// Adds player names to lobby screen and updates player count
 socket.on('update_player_lobby', function(data) {
 	document.getElementById('players').value = "";
 	for(var i=0; i<data.length; i++) {
@@ -20,7 +21,7 @@ socket.on('update_player_lobby', function(data) {
 	}
 });
 
-// Start game when button is clicked
+// Starts game when the button is pressed
 function startGame() {
 	socket.emit('start_game');
 }
