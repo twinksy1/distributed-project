@@ -11,3 +11,11 @@
 1. **Socket.io**: Add event-driven functionality to our application
 1. **Express**: Handle data input/output among the server and web pages
 1. **MongoDB**: Allow connection to a database to query quizzes
+
+## Features
+* Create your own unique quizzes
+* No limit on the amount of users who can join a quiz session
+* Displays data analytics on the various answers chosen after each question
+* Timer for each question to avoid waiting for long durations
+* Displays top 5 players with the highest scores at the end of each quiz session
+* Top player gets an offer to host their own quiz session with the same group
