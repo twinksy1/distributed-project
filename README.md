@@ -1,5 +1,5 @@
 # Distributed And Parallel Systems Project: Kahoot Clone
-> This was the project we made for our distributed systems course using NodeJS along with some popular node modules. The main goal of this project was to teach ourselves how to go about building a distributed system as well as some of the challenges that arise when creating such applications.
+> This was the project we made for our distributed systems course using NodeJS along with some popular node modules. The main goal of this project was to teach ourselves how to go about building a distributed system as well as some of the challenges that arise when creating such applications. [Link to video](https://youtu.be/OX82mVUVbcQ)
 
 ## Challenges
 * **Concurrency**: Displaying the same question to all quiz takers
